@@ -20,7 +20,7 @@ class Board {
       this.grid[y] = [];
       for (let x = 0; x < this.size; x++) {
         this.grid[y].push(
-          Math.random() > 0.94
+          Math.random() > 0.81
         );
       }
     }
@@ -40,34 +40,35 @@ class Board {
   }
 
   ruleOne(neighbours) {
-    return neighbours.filter(n => n.isAlive).length === 3;
+    return neighbours.filter(n => n).length === 3;
   }
 
   ruleTwo(neighbours) {
-    const count = neighbours.filter(n => n.isAlive).length;
+    const count = neighbours.filter(n => n).length;
     return (count === 2 || count === 3); 
   }
 
   getNeighbours(x, y) {
     const neighbours = [];
     this.offsets.map((offset) => {
-      const neighbour = this.getNeighbour(this.grid, x + offset[0], y + offset[1]);
-      if (neighbour)
+      const neighbour = this.getNeighbour(x + offset[0], y + offset[1]);
+      // console.log(neighbour)
+      if (neighbour != null)
         neighbours.push(neighbour);
     });
-
     return neighbours;
   }
 
   getNeighbour(x, y) {
     if (x < 0 || y < 0 || x > this.grid.length - 1 || y > this.grid.length - 1)
       return null;
-   
+
     return this.grid[y][x];
   }
 
   getNewValue(x, y) {
     const neighbours = this.getNeighbours(x, y);
+    
     if (!this.grid[y][x]) {
       return this.ruleOne(neighbours);
     } 
@@ -97,7 +98,7 @@ class Board {
   }
 }
 
-const SIZE = 10;
+const SIZE = 50;
 const board = new Board(SIZE);
 board.createBoard();
 
@@ -106,6 +107,7 @@ const ctx = canvas.getContext('2d');
 const W = canvas.width;
 const H = canvas.height;
 const cellSize = W / SIZE;
+// board.render(ctx, cellSize);
 // board.update();
 
 setInterval(() => {

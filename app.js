@@ -142,4 +142,4 @@ setInterval(() => {
   ctx.fillRect(0, 0, W, H);
   board.update();
   board.render(ctx, cellSize);
-}, 1000 / 30);
+}, 1000 / 10);
